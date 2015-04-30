@@ -53,18 +53,20 @@ class NullImageProcessListener(IImageProcessListener):
 		pass
 
 class ImageProcessDebugger(IImageProcessListener):
-	def __init__(self):
+	def __init__(self, outputFolder='./debug'):
 		IImageProcessListener.__init__( self )
 		self.m_scene = None
-		self.setOutputFolder('./debug')
+		self.m_baseImageName = None
+		self.setOutputFolder(outputFolder)
+		
 	def __del__(self):
-		assert( self.m_scene is not None )
+		#assert( self.m_scene is not None )
 		if self.m_scene:
-			self.m_scene.saveAsSvg('%s/result.svg' % (self.m_outputFolder))
+			self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
 			self.m_scene = None
 	def setOutputFolder(self, outputFolderPath):
 		if self.m_scene:
-			self.m_scene.saveAsSvg('%s/result.svg' % (self.m_outputFolder))
+			self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
 			self.m_scene = None
 		self.m_outputFolder = outputFolderPath
 		try:
@@ -82,6 +84,8 @@ class ImageProcessDebugger(IImageProcessListener):
 		filePath = '%s/%s.tif' % (self.m_outputFolder, imageName)
 		saveImage( image, filePath )
 	def onBaseImage(self, image, imageName=''):
+		assert(imageName != '')
+		self.m_baseImageName=imageName
 		filePath = '%s/%s.png' % (self.m_outputFolder, imageName)
 		saveImage( image, filePath )
 		self.m_scene = scene2d.Scene()
