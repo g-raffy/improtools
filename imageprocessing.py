@@ -49,7 +49,15 @@ class NullImageProcessListener(IImageProcessListener):
 		IImageProcessListener.__init__( self )
 	def onSignal(self, signal, signalName):
 		pass
+	def onBaseImage(self, image, imageName=''):
+		pass
 	def onImage(self, image, imageName):
+		pass
+	def onPoint(self, point, layerPath, label=None ):
+		pass
+	def onLine(self, line, layerPath, label=None ):
+		pass
+	def onCircle(self, circle, layerPath, label=None ):
 		pass
 
 class ImageProcessDebugger(IImageProcessListener):
@@ -69,10 +77,16 @@ class ImageProcessDebugger(IImageProcessListener):
 			self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
 			self.m_scene = None
 		self.m_outputFolder = outputFolderPath
-		try:
-			os.mkdir(self.m_outputFolder)
-		except (OSError): # this exception is raised if the folder already exists
-			pass
+		pathParts = self.m_outputFolder.split('/')
+		path = ''
+		for i in range(len(pathParts)):
+			if i != 0:
+				path += '/'
+			path += pathParts[i]		
+			try:
+				os.mkdir(path)
+			except (OSError): # this exception is raised if the folder already exists
+				pass
 	def onSignal(self, signal, signalName):
 		graphing.saveGraph(signal, '%s/%s.pdf' % (self.m_outputFolder, signalName))
 	def onSignals(self, signals, signalName):

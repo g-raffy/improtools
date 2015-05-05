@@ -9,6 +9,11 @@
 from matplotlib import pyplot
 from matplotlib.backends.backend_pdf import PdfPages
 
+def setLatexLookingFonts():
+	import matplotlib
+	matplotlib.rcParams['mathtext.fontset'] = 'stix'
+	matplotlib.rcParams['font.family'] = 'STIXGeneral'
+	#matplotlib.pyplot.title(r'ABC123 vs $\mathrm{ABC123}^{123}$')
 
 class Signal:
 	def __init__(self, signal, name=None):
@@ -48,6 +53,7 @@ class ScatterPlot(object):
 		return iter(self.m_points)		
 
 def saveScatterPlot( scatterPlot, pdfFileName):
+	setLatexLookingFonts()
 	fig = pyplot.figure()
 	pyplot.subplot(1,1,1)
 	x = []
@@ -55,7 +61,7 @@ def saveScatterPlot( scatterPlot, pdfFileName):
 	for point in scatterPlot:
 		x.append( point.x )
 		y.append( point.y )
-	pyplot.scatter(x, y)
+	pyplot.scatter(x, y, marker='x')
 	if scatterPlot.xAxisDesc is not None:
 		pyplot.xlabel(scatterPlot.xAxisDesc)
 	if scatterPlot.yAxisDesc is not None:
@@ -69,9 +75,10 @@ def saveScatterPlot( scatterPlot, pdfFileName):
 	
 	
 def saveGraph(signal, pdfFileName):
+	setLatexLookingFonts()
 	fig = pyplot.figure()
 	pyplot.subplot(1,1,1)
-	pyplot.plot(signal)
+	pyplot.plot(signal, marker='x')
 	
 	print('saving to '+pdfFileName)
 	pp = PdfPages(pdfFileName)
@@ -80,6 +87,7 @@ def saveGraph(signal, pdfFileName):
 	pyplot.close(fig)
 
 def saveMultiGraph(signals, pdfFileName):
+	setLatexLookingFonts()
 	fig = pyplot.figure()
 	pyplot.subplot(1,1,1)
 	for signal in signals:
