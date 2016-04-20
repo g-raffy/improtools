@@ -11,7 +11,7 @@
 #import sys
 
 import cv2
-from cv2 import cv
+#from cv2 import cv
 import numpy
 import os
 import sys
