@@ -165,11 +165,14 @@ def saveImage(image, filePath):
 		else:
 			u8Image = cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)		
 			cv2.imwrite(filePath, u8Image)
-	elif image.dtype == numpy.float32:
-		cv2.imwrite(filePath, cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U))
+	elif image.dtype == numpy.float32 or  image.dtype == numpy.float64:
+		print('image range : %d-%d' % (image.min(), image.max()))
+		u8Image = cv2.normalize(image, numpy.array(image.shape, dtype=numpy.uint8), alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)	
+		print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
+		cv2.imwrite(filePath, u8Image)
 	elif image.dtype == numpy.int32:
 		print('image range : %d-%d' % (image.min(), image.max()))
-		u8Image = cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)	
+		u8Image = cv2.normalize(image, numpy.array(image.shape, dtype=numpy.uint8), alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)	
 		print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
 		cv2.imwrite(filePath, u8Image)
 	else:
@@ -213,12 +216,14 @@ class MovieProcessDebugger(IMovieProcessListener):
 
 class IImageProcessor(object):
 	
-	def __init__(self, m_movieProcessListener = NullMovieProcessListener()):
-		self.m_movieProcessListener = m_movieProcessListener
+	def __init__(self, movieProcessListener = NullMovieProcessListener()):
+		self.m_movieProcessListener = movieProcessListener
 
 	def processImage(self, image):
 		assert( False ) # this method is not supposed to be called
 
+	def get_image_process_listener(self):
+		return self.m_movieProcessListener
 
 
 def findEdges(image):
