@@ -1,106 +1,114 @@
 # -*- coding: utf-8 -*-
 """
-	installation des modules nécéssaires sur macos x :
-	sudo port install opencv +python27
-	sudo port install py-pyqt4
-	sudo port install py-matplotlib
+    installation des modules nécéssaires sur macos x :
+    sudo port install opencv +python27
+    sudo port install py-pyqt4
+    sudo port install py-matplotlib
 
 """
 from matplotlib import pyplot
 from matplotlib.backends.backend_pdf import PdfPages
 
+
 def setLatexLookingFonts():
-	import matplotlib
-	matplotlib.rcParams['mathtext.fontset'] = 'stix'
-	matplotlib.rcParams['font.family'] = 'STIXGeneral'
-	#matplotlib.pyplot.title(r'ABC123 vs $\mathrm{ABC123}^{123}$')
+    import matplotlib
+    matplotlib.rcParams['mathtext.fontset'] = 'stix'
+    matplotlib.rcParams['font.family'] = 'STIXGeneral'
+    # matplotlib.pyplot.title(r'ABC123 vs $\mathrm{ABC123}^{123}$')
+
 
 class Signal:
-	def __init__(self, signal, name=None):
-		self.m_signalValues = signal
-		self.m_name = name
+    def __init__(self, signal, name=None):
+        self.m_signalValues = signal
+        self.m_name = name
+
 
 class Point2D(object):
-	def __init__(self, x, y):
-		self.m_x = x
-		self.m_y = y
-	@property
-	def x(self):
-		return self.m_x
-	@property
-	def y(self):
-		return self.m_y
+    def __init__(self, x, y):
+        self.m_x = x
+        self.m_y = y
+
+    @property
+    def x(self):
+        return self.m_x
+
+    @property
+    def y(self):
+        return self.m_y
+
 
 class ScatterPlot(object):
-	def __init__(self, xAxisDesc = None, yAxisDesc = None):
-		self.m_points = []
-		self.m_xAxisDesc = xAxisDesc
-		self.m_yAxisDesc = yAxisDesc
-	def append(self, point2d ):
-		self.m_points.append(point2d)
-	@property
-	def xAxisDesc(self):
-		return self.m_xAxisDesc
-	@property
-	def yAxisDesc(self):
-		return self.m_yAxisDesc
+    def __init__(self, xAxisDesc=None, yAxisDesc=None):
+        self.m_points = []
+        self.m_xAxisDesc = xAxisDesc
+        self.m_yAxisDesc = yAxisDesc
 
-	def setXAxisDesc(self, description):
-		self.m_xAxisDesc = description
-	def setYAxisDesc(self, description):
-		self.m_yAxisDesc = description
-	def __iter__(self):
-		return iter(self.m_points)		
+    def append(self, point2d):
+        self.m_points.append(point2d)
 
-def saveScatterPlot( scatterPlot, pdfFileName):
-	setLatexLookingFonts()
-	fig = pyplot.figure()
-	pyplot.subplot(1,1,1)
-	x = []
-	y = []
-	for point in scatterPlot:
-		x.append( point.x )
-		y.append( point.y )
-	pyplot.scatter(x, y, marker='x')
-	if scatterPlot.xAxisDesc is not None:
-		pyplot.xlabel(scatterPlot.xAxisDesc)
-	if scatterPlot.yAxisDesc is not None:
-		pyplot.ylabel(scatterPlot.yAxisDesc)
-		
-	#print('saving to '+pdfFileName)
-	pp = PdfPages(pdfFileName)
-	pp.savefig( fig )
-	pp.close()
-	pyplot.close(fig)
-	
-	
+    @property
+    def xAxisDesc(self):
+        return self.m_xAxisDesc
+
+    @property
+    def yAxisDesc(self):
+        return self.m_yAxisDesc
+
+    def setXAxisDesc(self, description):
+        self.m_xAxisDesc = description
+
+    def setYAxisDesc(self, description):
+        self.m_yAxisDesc = description
+
+    def __iter__(self):
+        return iter(self.m_points)
+
+
+def saveScatterPlot(scatterPlot, pdfFileName):
+    setLatexLookingFonts()
+    fig = pyplot.figure()
+    pyplot.subplot(1, 1, 1)
+    x = []
+    y = []
+    for point in scatterPlot:
+        x.append(point.x)
+        y.append(point.y)
+    pyplot.scatter(x, y, marker='x')
+    if scatterPlot.xAxisDesc is not None:
+        pyplot.xlabel(scatterPlot.xAxisDesc)
+    if scatterPlot.yAxisDesc is not None:
+        pyplot.ylabel(scatterPlot.yAxisDesc)
+
+    # print('saving to '+pdfFileName)
+    pp = PdfPages(pdfFileName)
+    pp.savefig(fig)
+    pp.close()
+    pyplot.close(fig)
+
+
 def saveGraph(signal, pdfFileName):
-	setLatexLookingFonts()
-	fig = pyplot.figure()
-	pyplot.subplot(1,1,1)
-	pyplot.plot(signal, marker='x')
-	
-	print('saving to '+pdfFileName)
-	pp = PdfPages(pdfFileName)
-	pp.savefig( fig )
-	pp.close()
-	pyplot.close(fig)
+    setLatexLookingFonts()
+    fig = pyplot.figure()
+    pyplot.subplot(1, 1, 1)
+    pyplot.plot(signal, marker='x')
+
+    print('saving to ' + pdfFileName)
+    pp = PdfPages(pdfFileName)
+    pp.savefig(fig)
+    pp.close()
+    pyplot.close(fig)
+
 
 def saveMultiGraph(signals, pdfFileName):
-	setLatexLookingFonts()
-	fig = pyplot.figure()
-	pyplot.subplot(1,1,1)
-	for signal in signals:
-		print('plotting signal %s' % str(signal.m_signalValues.shape))
-		pyplot.plot(signal.m_signalValues, label=signal.m_name)
-	print('saving to '+pdfFileName)
-	pyplot.legend()
-	pp = PdfPages(pdfFileName)
-	pp.savefig( fig )
-	pp.close()
-	pyplot.close(fig)
-
-
-
-
-	
+    setLatexLookingFonts()
+    fig = pyplot.figure()
+    pyplot.subplot(1, 1, 1)
+    for signal in signals:
+        print('plotting signal %s' % str(signal.m_signalValues.shape))
+        pyplot.plot(signal.m_signalValues, label=signal.m_name)
+    print('saving to ' + pdfFileName)
+    pyplot.legend()
+    pp = PdfPages(pdfFileName)
+    pp.savefig(fig)
+    pp.close()
+    pyplot.close(fig)
