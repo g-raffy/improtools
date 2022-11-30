@@ -117,6 +117,13 @@ class Scene(ISceneNode):
             parentLayer = parentLayer.m_layers[layerName]
         return parentLayer
 
+    def get_size(self):
+        width = 0.0
+        height = 0.0
+        if self.m_image is not None:
+            (height, width) = self.m_image.getSize()
+        return (width, height)
+
     def saveAsSvg(self, filePath):
         visitor = SvgExporter(filePath)
         self.onVisit(visitor)
@@ -150,15 +157,16 @@ class SvgExporter(ISceneNodeVisitor):
         self.m_f.write('<g id="%s" style="fill:red;stroke:cyan">\n' % layer.getName())
         for child in layer.m_children:
             child.onVisit(self)
-        for layer in layer.m_layers.itervalues():
+        for layer in layer.m_layers.values():
             layer.onVisit(self)
         self.m_f.write('</g>\n')
 
     def visitScene(self, scene):
+        (width, height) = scene.get_size()
         with open(self.m_svgFilePath, 'wt') as self.m_f:
             print('exporting scene2d as %s' % self.m_svgFilePath)
             self.m_f.write('<?xml version="1.0"?>')
-            self.m_f.write('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="3008" height="2280" onload="init()">')
+            self.m_f.write('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="%d" height="%d" onload="init()">' % (width, height))
             self.m_f.write('<defs>')
             self.m_f.write('<script type="text/ecmascript" xlink:href="MeniscusUI.js"/>')
             self.m_f.write('</defs>')
