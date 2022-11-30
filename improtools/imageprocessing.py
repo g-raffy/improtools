@@ -245,10 +245,10 @@ class MovieProcessDebugger(IMovieProcessListener):
         self.m_imageProcessListener.onBaseImage(image, imageName)
 
     def onPoint(self, point, layerPath, label=None):
-        self.m_imageProcessListener.onPoint(image, point, layerPath, label)
+        self.m_imageProcessListener.onPoint(point, layerPath, label)
 
     def onCircle(self, circle, layerPath, label=None):
-        self.m_imageProcessListener.onPoint(image, circle, layerPath, label)
+        self.m_imageProcessListener.onPoint(circle, layerPath, label)
 
 
 class IImageProcessor(object):

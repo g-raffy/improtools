@@ -133,16 +133,14 @@ class SvgExporter(ISceneNodeVisitor):
             self.m_f.write('<text x="%.3f" y="%.3f">%s</text>\n' % (point.m_coords[0], point.m_coords[1], point.m_label))
 
     def visitLine(self, line):
-        radius = 1.0
         self.m_f.write('<line x1="%.3f" x2="%.3f" y1="%.3f" y2="%.3f"/>\n' % (line.m_from[0], line.m_to[0], line.m_from[1], line.m_to[1]))
         if line.m_label is not None:
-            self.m_f.write('<text x="%.3f" y="%.3f">%s</text>\n' % (line.m_from[0], line.m_from[1], point.m_label))
+            self.m_f.write('<text x="%.3f" y="%.3f">%s</text>\n' % (line.m_from[0], line.m_from[1], line.m_label))
 
     def visitCircle(self, circle):
-        radius = 1.0
         self.m_f.write('<circle cx="%.3f" cy="%.3f" r="%.3f"/>\n' % (circle.m_center[0], circle.m_center[1], circle.m_radius))
         if circle.m_label is not None:
-            self.m_f.write('<text x="%.3f" y="%.3f">%s</text>\n' % (circle.m_center[0], circle.m_center[1], point.m_label))
+            self.m_f.write('<text x="%.3f" y="%.3f">%s</text>\n' % (circle.m_center[0], circle.m_center[1], circle.m_label))
 
     def visitImage(self, image):
         imageSize = image.getSize()
