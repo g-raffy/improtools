@@ -7,5 +7,6 @@ setup(name='improtools',
       author='Guillaume Raffy',
       author_email='guillaume.raffy.work@gmail.com',
       license='MIT',
+      install_requires=['matplotlib'],
       packages=['improtools'],
       zip_safe=False)
