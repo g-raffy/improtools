@@ -14,13 +14,11 @@ import cv2
 # from cv2 import cv
 import numpy
 import os
-import sys
 # from matplotlib import pyplot as plt
 # from matplotlib.backends.backend_pdf import PdfPages
 
-sys.path.append('../Libraries/python')
-import scene2d
-import graphing
+from . import scene2d
+from . import graphing
 
 
 class Line2D(object):
