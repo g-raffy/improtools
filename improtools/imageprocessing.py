@@ -16,6 +16,7 @@ import numpy
 import os
 # from matplotlib import pyplot as plt
 # from matplotlib.backends.backend_pdf import PdfPages
+from pathlib import Path
 
 from . import scene2d
 from . import graphing
@@ -183,6 +184,9 @@ class NullMovieProcessListener(IMovieProcessListener):
     def onImage(self, image, imageName):
         pass
 
+    def onBaseImage(self, image, imageName):
+        pass
+
 
 def saveImage(image, filePath):
     print('%s original image type : %s range=(%f:%f)' % (filePath, str(image.dtype), image.min(), image.max()))
@@ -213,9 +217,9 @@ def saveImage(image, filePath):
 
 class MovieProcessDebugger(IMovieProcessListener):
 
-    def __init__(self):
+    def __init__(self, output_folder:Path = Path('./debug')):
         IMovieProcessListener.__init__(self, ImageProcessDebugger())
-        self.m_outputFolder = './debug'
+        self.m_outputFolder = output_folder
         self.m_scene = None
         try:
             os.mkdir(self.m_outputFolder)
