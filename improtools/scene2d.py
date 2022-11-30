@@ -93,7 +93,7 @@ class Layer(ISceneNode):
         visitor.visitLayer(self)
 
     def addLayer(self, layer):
-        print('adding layer %s' % layer.getName())
+        # print('adding layer %s' % layer.getName())
         self.m_layers[layer.getName()] = layer
 
 
@@ -164,7 +164,7 @@ class SvgExporter(ISceneNodeVisitor):
     def visitScene(self, scene):
         (width, height) = scene.get_size()
         with open(self.m_svgFilePath, 'wt') as self.m_f:
-            print('exporting scene2d as %s' % self.m_svgFilePath)
+            # print('exporting scene2d as %s' % self.m_svgFilePath)
             self.m_f.write('<?xml version="1.0"?>')
             self.m_f.write('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="%d" height="%d" onload="init()">' % (width, height))
             self.m_f.write('<defs>')

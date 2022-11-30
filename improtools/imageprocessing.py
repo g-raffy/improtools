@@ -189,7 +189,7 @@ class NullMovieProcessListener(IMovieProcessListener):
 
 
 def saveImage(image, filePath):
-    print('%s original image type : %s range=(%f:%f)' % (filePath, str(image.dtype), image.min(), image.max()))
+    # print('%s original image type : %s range=(%f:%f)' % (filePath, str(image.dtype), image.min(), image.max()))
     if image.dtype == numpy.bool:
         cv2.imwrite(filePath, image.astype(numpy.uint8) * 255)
     elif image.dtype == numpy.uint16:
@@ -201,14 +201,14 @@ def saveImage(image, filePath):
             u8Image = cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
             cv2.imwrite(filePath, u8Image)
     elif image.dtype == numpy.float32 or image.dtype == numpy.float64:
-        print('image range : %d-%d' % (image.min(), image.max()))
+        # print('image range : %d-%d' % (image.min(), image.max()))
         u8Image = cv2.normalize(image, numpy.array(image.shape, dtype=numpy.uint8), alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
+        # print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
         cv2.imwrite(filePath, u8Image)
     elif image.dtype == numpy.int32:
-        print('image range : %d-%d' % (image.min(), image.max()))
+        # print('image range : %d-%d' % (image.min(), image.max()))
         u8Image = cv2.normalize(image, numpy.array(image.shape, dtype=numpy.uint8), alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
+        # print('u8Image range : %d-%d' % (u8Image.min(), u8Image.max()))
         cv2.imwrite(filePath, u8Image)
     else:
         # assert( False )
