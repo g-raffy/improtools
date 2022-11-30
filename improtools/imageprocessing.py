@@ -90,16 +90,17 @@ class ImageProcessDebugger(IImageProcessListener):
             self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
             self.m_scene = None
         self.m_outputFolder = outputFolderPath
-        pathParts = self.m_outputFolder.split('/')
-        path = ''
-        for i in range(len(pathParts)):
-            if i != 0:
-                path += '/'
-            path += pathParts[i]
-            try:
-                os.mkdir(path)
-            except (OSError):  # this exception is raised if the folder already exists
-                pass
+        if self.m_outputFolder is not None:
+            pathParts = self.m_outputFolder.split('/')
+            path = ''
+            for i in range(len(pathParts)):
+                if i != 0:
+                    path += '/'
+                path += pathParts[i]
+                try:
+                    os.mkdir(path)
+                except (OSError):  # this exception is raised if the folder already exists
+                    pass
 
     def onSignal(self, signal, signalName):
         graphing.saveGraph(signal, '%s/%s.pdf' % (self.m_outputFolder, signalName))
@@ -139,7 +140,7 @@ class ImageProcessDebugger(IImageProcessListener):
 
 class IMovieProcessListener(object):
     """
-        an abstract base class that handle events that happen durin a movie image processing. This provides a flexible way to debug imageprocessing
+        an abstract base class that handle events that happen during a movie image processing. This provides a flexible way to debug imageprocessing
     """
 
     def __init__(self, imageProcessListener):
