@@ -83,12 +83,12 @@ class ImageProcessDebugger(IImageProcessListener):
     def __del__(self):
         # assert( self.m_scene is not None )
         if self.m_scene:
-            self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
+            self.m_scene.saveAsSvg(Path('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName)))
             self.m_scene = None
 
     def setOutputFolder(self, outputFolderPath):
         if self.m_scene:
-            self.m_scene.saveAsSvg('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName))
+            self.m_scene.saveAsSvg(Path('%s/%s.svg' % (self.m_outputFolder, self.m_baseImageName)))
             self.m_scene = None
         self.m_outputFolder = outputFolderPath
         if self.m_outputFolder is not None:

@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 import cv2
+from pathlib import Path
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Try backported to PY<37 `importlib_resources`.
+    import importlib_resources as pkg_resources
+import shutil
 
 
 class ISceneNodeVisitor(object):
@@ -124,13 +131,13 @@ class Scene(ISceneNode):
             (height, width) = self.m_image.getSize()
         return (width, height)
 
-    def saveAsSvg(self, filePath):
+    def saveAsSvg(self, filePath: Path):
         visitor = SvgExporter(filePath)
         self.onVisit(visitor)
 
 
 class SvgExporter(ISceneNodeVisitor):
-    def __init__(self, svgFilePath):
+    def __init__(self, svgFilePath: Path):
         self.m_svgFilePath = svgFilePath
 
     def visitPoint(self, point):
@@ -162,13 +169,18 @@ class SvgExporter(ISceneNodeVisitor):
         self.m_f.write('</g>\n')
 
     def visitScene(self, scene):
+        ui_file_name = 'impro_ui.js'  # contains the javascript ui that allows the user to toggle the visibility of layers in the svg scene
+        with pkg_resources.path('improtools.resources', 'impro_ui.js') as p:
+            impro_ui_src_path = p
+        shutil.copyfile(impro_ui_src_path, self.m_svgFilePath.parent / ui_file_name)
+
         (width, height) = scene.get_size()
         with open(self.m_svgFilePath, 'wt') as self.m_f:
             # print('exporting scene2d as %s' % self.m_svgFilePath)
             self.m_f.write('<?xml version="1.0"?>')
             self.m_f.write('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="%d" height="%d" onload="init()">' % (width, height))
             self.m_f.write('<defs>')
-            self.m_f.write('<script type="text/ecmascript" xlink:href="MeniscusUI.js"/>')
+            self.m_f.write('<script type="text/ecmascript" xlink:href="%s"/>' % ui_file_name)
             self.m_f.write('</defs>')
             if scene.m_image is not None:
                 scene.m_image.onVisit(self)

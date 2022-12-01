@@ -9,4 +9,5 @@ setup(name='improtools',
       license='MIT',
       install_requires=['matplotlib'],
       packages=['improtools'],
+      package_data={'improtools': ['resources/impro_ui.js']},
       zip_safe=False)
