@@ -62,7 +62,6 @@ class FolderImageFeeder(IImageFeeder):
         from os import walk
         self.m_sequenceFileNames = []
         for (dirpath, dirnames, filenames) in walk(folderPath):
-            # print(filenames)
             for filename in filenames:
                 if filename.split('.')[-1] in ('tif'):
                     self.m_sequenceFileNames.append(folderPath + '/' + filename)
@@ -115,7 +114,7 @@ class MovieSampler(IImageFeeder):
         orgMin = self.m_imageFeeder.getMinIndex()
         orgMax = self.m_imageFeeder.getMaxIndex()
         orgNumImages = (orgMax + 1 - orgMin)
-        return orgNumImages / self.m_step
+        return orgNumImages // self.m_step
 
     def getImage(self, imageIndex):
         orgImageIndex = (imageIndex * self.m_step) + self.m_imageFeeder.getMinIndex()

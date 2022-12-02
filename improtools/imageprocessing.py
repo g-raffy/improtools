@@ -6,8 +6,8 @@
     sudo port install py-matplotlib
 
 """
-# from PyQt4.QtGui import *
-# from PyQt4.QtCore import *
+# from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
 # import sys
 
 import cv2
@@ -198,7 +198,8 @@ def saveImage(image, filePath):
             # tif file format supports 16 bits per pixel
             cv2.imwrite(filePath, image)
         else:
-            u8Image = cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+            u8Image = numpy.zeros(shape=image.shape, dtype=numpy.uint8)
+            cv2.normalize(image, alpha=0.0, beta=255.0, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U, dst=u8Image)
             cv2.imwrite(filePath, u8Image)
     elif image.dtype == numpy.float32 or image.dtype == numpy.float64:
         # print('image range : %d-%d' % (image.min(), image.max()))
