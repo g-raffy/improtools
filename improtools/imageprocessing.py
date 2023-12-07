@@ -190,7 +190,7 @@ class NullMovieProcessListener(IMovieProcessListener):
 
 def saveImage(image, filePath):
     # print('%s original image type : %s range=(%f:%f)' % (filePath, str(image.dtype), image.min(), image.max()))
-    if image.dtype == numpy.bool:
+    if image.dtype == bool:
         cv2.imwrite(filePath, image.astype(numpy.uint8) * 255)
     elif image.dtype == numpy.uint16:
         fileExt = filePath.split('.')[-1]
